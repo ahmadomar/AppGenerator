@@ -1,0 +1,19 @@
+﻿@model AppsGenerator.Models.MessageView
+
+@{
+    ViewBag.Title = "Success";
+    Layout = "~/Views/Shared/_clientLayout.cshtml";
+}
+<div class="panel panel-primary">
+    <div class="panel-body" style="text-align:center">
+        <h1>
+            @{
+                string url = "http://"+Model.Message+".azurewebsites.net";
+            }
+            Application Published Successfully.
+            <a href='@url' class='btn btn-success' target="_blank">Click Here</a> To Visit
+        </h1>
+        <br />
+        @Html.ActionLink("My Applications", "Index", "Application", null, new { @class = "btn btn-primary" })
+    </div>
+</div>

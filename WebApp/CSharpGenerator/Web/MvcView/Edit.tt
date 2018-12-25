@@ -1,0 +1,255 @@
+﻿<#@ template language="C#" #>
+<#@ assembly name="System.Core" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="Microsoft.AspNet.Scaffolding.Core.Metadata"#>
+<#// include file="Imports.include.t4" #>
+@model <#= ViewDataTypeName #>
+<#
+// "form-control" attribute is only supported for all EditorFor() in System.Web.Mvc 5.1.0.0 or later versions, except for checkbox, which uses a div in Bootstrap
+string boolType = "System.Boolean";
+Version requiredMvcVersion = new Version("5.1.0.0");
+bool isControlHtmlAttributesSupported = MvcVersion >= requiredMvcVersion;
+// The following chained if-statement outputs the file header code and markup for a partial view, a view using a layout page, or a regular view.
+if(IsPartialView) {
+#>
+
+<#
+} else if(IsLayoutPageSelected) {
+#>
+
+@{
+    ViewBag.Title = "<#= ViewName +" "+ ViewDataTypeShortName#>";
+<#
+if (!String.IsNullOrEmpty(LayoutPageFile)) {
+#>
+    Layout = "<#= LayoutPageFile#>";
+<#
+}
+#>
+}
+
+<h2><#= ViewName +" "+ ViewDataTypeShortName#></h2>
+
+<#
+} else {
+#>
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title><#= ViewName +" "+ ViewDataTypeShortName#></title>
+</head>
+<body>
+<#
+    PushIndent("    ");
+}
+#>
+<#
+if (ReferenceScriptLibraries) {
+#>
+<#
+    if (!IsLayoutPageSelected && IsBundleConfigPresent) {
+#>
+@Scripts.Render("~/bundles/jquery")
+@Scripts.Render("~/bundles/jqueryval")
+
+<#
+    }
+#>
+<#
+    else if (!IsLayoutPageSelected) {
+#>
+<script src="~/Scripts/jquery-<#= JQueryVersion #>.min.js"></script>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+
+<#
+    }
+#>
+
+<#
+}
+#>
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    
+    <div class="form-horizontal">
+        <hr />
+<# 
+    if (isControlHtmlAttributesSupported) {
+#>
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+<#        
+    } else {
+#>
+        @Html.ValidationSummary(true)
+<#      
+    }
+#>
+<#
+foreach (PropertyMetadata property in ModelMetadata.Properties) {
+    if (property.Scaffold && !property.IsAssociation) {
+        if (property.IsPrimaryKey) {
+#>
+        @Html.HiddenFor(model => model.<#= property.PropertyName #>)
+
+<#
+        } else if (!property.IsReadOnly) {
+#>
+        <div class="form-group">
+<#
+            if (property.IsForeignKey) {
+#>
+            @Html.LabelFor(model => model.<#= property.PropertyName #>, "<#= GetAssociationName(property) #>", htmlAttributes: new { @class = "control-label col-md-2" })
+<#
+            } else {
+#>
+            @Html.LabelFor(model => model.<#= property.PropertyName #>, htmlAttributes: new { @class = "control-label col-md-2" })
+<#
+            }
+#>
+            <div class="col-md-10">
+<#
+            bool isCheckbox = property.TypeName.Equals(boolType);
+            bool isDateTime = property.TypeName.Equals("Edm.DateTime");
+            if (property.IsForeignKey) {
+#>
+<# 
+            if (isControlHtmlAttributesSupported) {
+#>
+                @Html.DropDownList("<#= property.PropertyName #>", null, htmlAttributes: new { @class = "form-control" })
+<#
+            } else {
+#>
+                @Html.DropDownList("<#= property.PropertyName #>", String.Empty)
+<#
+            }
+#>
+<#
+            } else  if (isControlHtmlAttributesSupported) {
+                if (isCheckbox) {
+#>
+                <div class="checkbox">
+<#
+                    PushIndent("    ");
+#>
+                @Html.EditorFor(model => model.<#= property.PropertyName #>)
+<#
+                 } else if (isDateTime) {
+#>
+                 @Html.EditorFor(model => model.<#=                            property.PropertyName #>,new { htmlAttributes = new { @class = "form-control" } })
+                <script type="text/javascript">
+                    $(function () {
+                        $('#<#=                            property.PropertyName #>').datetimepicker();
+                    });
+                </script>
+<#
+                    }else if (property.IsEnum && !property.IsEnumFlags) {
+#>
+                @Html.EnumDropDownListFor(model => model.<#=                            property.PropertyName #>, htmlAttributes: new { @class = "form-control" })
+<#
+                    } else {
+#>
+                @Html.EditorFor(model => model.<#=                            property.PropertyName #>, new { htmlAttributes = new { @class = "form-control" } })
+<#
+                    }
+            } else {
+#>
+                @Html.EditorFor(model => model.<#= property.PropertyName #>)
+<#
+            }
+#>
+<# 
+            if (isControlHtmlAttributesSupported) {
+#>
+                @Html.ValidationMessageFor(model => model.<#= property.PropertyName #>, "", new { @class = "text-danger" })
+<#        
+            } else {
+#>
+                @Html.ValidationMessageFor(model => model.<#= property.PropertyName #>)
+<#      
+            }
+#>
+<#
+            if (isCheckbox && isControlHtmlAttributesSupported) {
+                PopIndent();
+#>
+                </div>
+<#
+            }
+#>
+            </div>
+        </div>
+
+<#
+        }
+    }
+}
+#>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Save" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+<#
+if(IsLayoutPageSelected && ReferenceScriptLibraries && IsBundleConfigPresent) {
+#>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+<#
+}
+#>
+<#
+else if(IsLayoutPageSelected && ReferenceScriptLibraries) {
+#>
+
+<script src="~/Scripts/jquery-<#= JQueryVersion #>.min.js"></script>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+<#
+}
+#>
+<#
+// The following code closes the tag used in the case of a view using a layout page and the body and html tags in the case of a regular view page
+#>
+<#
+if(!IsPartialView && !IsLayoutPageSelected) {
+    ClearIndent();
+#>
+</body>
+</html>
+<#
+}
+#>
+<#@ include file="ModelMetadataFunctions.cs.include.t4" #>
+
+<#+
+    public string ViewDataTypeName{get;set;}
+    public string ViewDataTypeShortName{get;set;}
+    public bool IsPartialView{get;set;}
+    public bool IsLayoutPageSelected{get;set;}
+    public bool ReferenceScriptLibraries{get;set;}
+    public bool IsBundleConfigPresent{get;set;}
+    public string ViewName{get;set;}
+    public string LayoutPageFile{get;set;}
+    public string JQueryVersion{get;set;}
+    public Version MvcVersion{get;set;}
+    public ModelMetadata ModelMetadata{get;set;}
+ #>

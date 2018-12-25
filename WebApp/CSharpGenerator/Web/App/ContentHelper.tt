@@ -1,0 +1,35 @@
+﻿<#@ template language="C#" #>
+<#@ assembly name="System.Core" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.Collections.Generic" #>
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Linq.Expressions;
+using System.Web;
+using System.Web.Mvc;
+
+namespace <#= NameSpace #>
+{
+    public static class ContentHelper
+    {
+        public static MvcHtmlString MenuLinkBootstrap(
+this HtmlHelper htmlHelper,
+string text, string actionName, string controllerName)
+        {
+            string currentAction = htmlHelper.ViewContext.RouteData.GetRequiredString("action");
+            string currentController = htmlHelper.ViewContext.RouteData.GetRequiredString("controller");
+
+            if (controllerName == currentController)
+            {
+                return new MvcHtmlString("<li class=\"active\"><a href='/" + controllerName + "/" + actionName + "'>" + text + "</a></li>");
+            }
+            return new MvcHtmlString("<li><a href='/" + controllerName + "/" + actionName + "'>" + text + "</a></li>");
+        }
+
+    }
+}
+<#+
+    public string NameSpace{set;get;}
+ #>

@@ -1,0 +1,15 @@
+﻿@model AppsGenerator.Models.MessageView
+
+@{
+    ViewBag.Title = "Success";
+    Layout = "~/Views/Shared/_clientLayout.cshtml";
+}
+<div class="panel panel-primary">
+    <div class="panel-body" style="text-align:center">
+        <h1>
+            @Html.Raw(Model.Message)
+        </h1>
+        <br />
+        @Html.ActionLink("My Applications", "Index", "Application", null, new { @class = "btn btn-primary" })
+    </div>
+</div>

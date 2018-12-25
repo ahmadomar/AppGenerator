@@ -1,0 +1,105 @@
+﻿@model IEnumerable<AppsGenerator.Models.AppTableView>
+
+    @{
+        ViewBag.Title = "Generate";
+        int first = 0;
+        string active = "";
+    }
+
+    @if (Model != null)
+    {
+        <h2>Change Tables</h2>
+        <div class="container">
+
+            <div role="tabpanel">
+
+                <!-- Nav tabs -->
+                <ul class="nav nav-tabs" role="tablist">
+                    @foreach (var item in Model)
+                    {
+                        if (first == 0)
+                        { active = "active"; }
+                        else
+                        {
+                            active = "";
+                        }
+
+                        <li role="presentation" class="@active">
+                            <a href="#@item.Name" aria-controls="@item.Name" role="tab" data-toggle="tab">@item.Name</a>
+                        </li>
+
+                        first++;
+                    }
+                </ul>
+
+                @using (Html.BeginForm())
+                {
+                    @Html.AntiForgeryToken()
+                    @Html.Hidden("appId")
+                <!-- Tab panes -->
+                    <div class="tab-content">
+                        @{
+                    first = 0;
+                    active = "";
+                        }
+                        @foreach (var item in Model)
+                        {
+                            if (first == 0)
+                            { active = "active"; }
+                            else
+                            {
+                                active = "";
+                            }
+
+                            <div role="tabpanel" class="tab-pane @active" id="@item.Name">
+                                <table class="table table-striped">
+                                        <tr>
+                                            <th>
+                                                Column
+                                            </th>
+
+                                            <th>
+                                                Display Name
+                                            </th>
+                                        </tr>
+                            
+                                    @{string ctrlId = "";
+                                    }
+                                    @foreach (var column in item.Columns)
+                                    {   
+                                        ctrlId = item.Name +"_"+ column.Name;
+                                         
+                                        <tr>
+                                            <td>
+                                                @column.Name
+                                            </td>    
+                                            <td>
+                                                <input type="text" id='@ctrlId' value="@column.Name" class="form-control text-box single-line">
+                                            </td>
+                                        </tr>
+                                    }
+                                </table>
+                            </div>
+                            first++;
+                        }
+                    </div>
+                    
+                      <br />
+            
+                    <div>
+                        <input type="submit" value="Save Changes" class="btn btn-success" />
+                    </div>
+                }
+            </div>
+
+          
+        </div>
+    }
+    else
+    {
+        <div class="alert-warning">
+            <h1>
+                No Tables Found
+            </h1>
+        </div>
+    }

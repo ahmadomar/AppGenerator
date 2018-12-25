@@ -1,0 +1,18 @@
+﻿@model IEnumerable<AppsGenerator.Models.Theme>
+
+<div class="row placeholders">
+    @foreach (var item in Model)
+    {
+        string imageName = item.Name.ToLower() + ".png";
+        
+        <div class="col-xs-6 col-sm-4 placeholder">
+            <img class="img-responsive apps" src='~/img/@imageName' alt="Cerulean">
+            <input type="radio" name="selectedTheme" value="@item.Id" />
+            <h4>@item.Name</h4>
+            <span class="text-muted">@item.Description</span>
+            <p>
+                <div class="btn-group"><a class="btn btn-info" target="_blank" href="@item.Url">Preview</a></div>
+            </p>
+        </div>
+    }
+</div>

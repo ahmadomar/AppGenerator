@@ -1,0 +1,19 @@
+﻿<#@ template language="C#" #>
+<#@ assembly name="System.Core" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="System.Data.Metadata.Edm" #>
+<ul class="nav nav-pills nav-stacked well">
+    <#
+        foreach(var table in tables)
+    {
+ #>
+        @Html.MenuLinkBootstrap("<#= table.Name #>", "index", "<#= table.Name #>")
+<#    } #>
+</ul>
+
+
+<#+
+    public List<EntityType> tables{set;get;}
+ #>

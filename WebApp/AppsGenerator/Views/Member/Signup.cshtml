@@ -1,0 +1,65 @@
+﻿@model AppsGenerator.Models.SignupViewModel
+@{
+    ViewBag.Title = "Signup";
+    Layout = "~/Views/Shared/_clientLayout.cshtml";
+}
+
+@using (Html.BeginForm("Signup", "Member", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+{
+    @Html.AntiForgeryToken()
+    <div class="panel panel-primary">
+        <div class="panel-heading text-center">
+            <h2>Signup</h2>
+        </div>
+        <div class="panel-body">
+
+            <div class="form-group">
+                @Html.LabelFor(m => m.UserName, new { @class = "col-md-5 control-label" })
+                <div class="col-md-5">
+                    @Html.TextBoxFor(m => m.UserName, new { @class = "form-control", @maxlength = "16" })
+                    @Html.ValidationMessageFor(m => m.UserName)
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(m => m.Email, new { @class = "col-md-5 control-label" })
+                <div class="col-md-5">
+                    @Html.TextBoxFor(m => m.Email, new { @class = "form-control", @maxlength = "40" })
+                    @Html.ValidationMessageFor(m => m.Email)
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(m => m.Password, new { @class = "col-md-5 control-label" })
+                <div class="col-md-5">
+                    @Html.PasswordFor(m => m.Password, new { @class = "form-control", @maxlength = "18" })
+                    @Html.ValidationMessageFor(m => m.Password)
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.ConfirmPassword, new { @class = "col-md-5 control-label" })
+                <div class="col-md-5">
+                    @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control", @maxlength = "18" })
+                    @Html.ValidationMessageFor(m => m.ConfirmPassword)
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-offset-5 col-md-7">
+                    <input type="submit" class="btn btn-success" value="Signup" />
+                    <a href="/Home" class="btn btn-success">
+                        Home
+                    </a>
+                </div>
+            </div>
+
+            <div class="text-center">
+                @Html.ValidationMessage("RegistrationError")
+            </div>
+        </div>
+    </div>
+
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

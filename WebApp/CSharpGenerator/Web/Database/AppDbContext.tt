@@ -1,0 +1,86 @@
+﻿<#@ Template Language="C#" HostSpecific="True"  #>
+<#@ import namespace="System.Collections.Generic" #>
+using System;
+using System.Collections.Generic;
+using System.Data.Entity;
+using System.Linq;
+using System.Web;
+using System.Data.Entity.ModelConfiguration.Conventions;
+using <#= DbContextNamespace #>.Mapping;
+
+<#
+string baseClassName;
+if (String.Equals(DbContextType, "DbContext", StringComparison.Ordinal))
+{
+   baseClassName = "System.Data.Entity.DbContext";
+}
+else
+{
+   baseClassName = "DbContext";
+}
+#>
+<# if (!String.IsNullOrEmpty(DbContextNamespace)) { #>
+namespace <#= DbContextNamespace #>
+{
+<# 
+PushIndent("    ");
+} 
+#>
+public class <#= DbContextType #> : <#= baseClassName #>
+{
+    // You can add custom code to this file. Changes will not be overwritten.
+    // 
+    // If you want Entity Framework to drop and regenerate your database
+    // automatically whenever you change your model schema, please use data migrations.
+    // For more information refer to the documentation:
+    // http://msdn.microsoft.com/en-us/data/jj591621.aspx
+    
+    public <#= DbContextType #>() : base("name=<#= ConnectionStringName #>")
+    {
+        Database.SetInitializer<<#=DbContextType #>>(null);
+    }
+
+    protected override void OnModelCreating(DbModelBuilder modelbuilder)
+    {
+        modelbuilder.Conventions.Remove<PluralizingTableNameConvention>();
+
+        //Model Mapping
+        <#
+    foreach(var entity in EntityMembers){
+        #>
+        modelbuilder.Configurations.Add(new <#=entity.EntityTypeName #>Map());
+        <#
+    }
+        #>
+    }
+
+    <#
+        foreach(var entity in EntityMembers){
+    #>
+
+    public System.Data.Entity.DbSet<<#= entity.EntityTypeName #>> <#=entity.EntityTypeNamePluralized #> { get; set; }
+
+    <#    } #>
+
+}
+<# if (!String.IsNullOrEmpty(DbContextNamespace)) { 
+ClearIndent();
+#>
+}
+<# 
+} 
+#>
+
+
+<#+
+    public string DbContextNamespace{set;get;}
+    public string DbContextType{set;get;}
+    public string ConnectionStringName{set;get;}
+
+    public class EntityMember{
+        public string EntityTypeName{get;set;}
+        public string EntityTypeNamePluralized{get;set;}
+    }
+
+    public List<EntityMember> EntityMembers{get;set;}
+ #>

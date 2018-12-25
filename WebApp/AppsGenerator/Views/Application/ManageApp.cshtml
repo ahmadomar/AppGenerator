@@ -1,0 +1,96 @@
+﻿@model AppsGenerator.Models.Application
+@{
+    ViewBag.Title = "ManageApp";
+    Layout = "~/Views/Shared/_AppInfoLayout.cshtml";
+}
+
+<table class="table-bordered">
+    <tr>
+        <td>
+            @Html.ActionLink("Generate", "Generate", new { id = Model.Id }, new { @class = "btn btn-primary" })
+        </td>
+        @if (Model.generated.HasValue && Model.generated.Value == true)
+        {
+            <td>
+                @Html.ActionLink("Download Source Code", "DownloadApp", new { id = Model.Id }, new { @class = "btn btn-primary" })
+            </td>
+            
+           // if (Model.published_azure.HasValue && Model.published_azure.Value == true)
+          //  {
+                <td>
+                    @Html.ActionLink("Publish To Azure", "PublishAzure", new { id = Model.Id }, new { @class = "btn btn-primary" })
+                </td>
+           // }
+        }
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id = Model.Id },new { @class = "btn btn-success" })
+        </td>
+        <td>
+            @Html.ActionLink("Delete", "Delete", new { id = Model.Id }, new { @class = "btn btn-danger" })
+        </td>
+    </tr>
+    
+</table>
+
+<br />
+
+<div role="tabpanel">
+
+    <!-- Nav tabs -->
+    @*<ul class="nav nav-pills" role="tablist">
+        <li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab">Home</a></li>
+        @*<li role="presentation"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">Profile</a></li>
+        <li role="presentation"><a href="#messages" aria-controls="messages" role="tab" data-toggle="tab">Messages</a></li>
+        <li role="presentation"><a href="#settings" aria-controls="settings" role="tab" data-toggle="tab">Settings</a></li>
+    </ul>*@
+
+    <!-- Tab panes -->
+    <div class="tab-content">
+        <div role="tabpanel" class="tab-pane active" id="home">
+            <dl class="dl-horizontal">
+
+                <dt>
+                    Theme Name
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.Theme.Name)
+                </dd>
+
+                <dt>
+                    Application Name
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.Name)
+                </dd>
+
+                <dt>
+                    Created At
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.created_at)
+                </dd>
+                <dt>
+                    Is Generated
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.generated)
+                </dd>
+
+                <dt>
+                    URL
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.url)
+                </dd>
+            </dl>
+        </div>
+        @*<div role="tabpanel" class="tab-pane" id="profile">...</div>
+        <div role="tabpanel" class="tab-pane" id="messages">...</div>
+        <div role="tabpanel" class="tab-pane" id="settings">...</div>*@
+    </div>
+
+</div>

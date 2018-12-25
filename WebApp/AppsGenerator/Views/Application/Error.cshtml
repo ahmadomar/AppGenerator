@@ -1,0 +1,15 @@
+﻿@model AppsGenerator.Models.MessageView
+
+@{
+    ViewBag.Title = "Error";
+    Layout = "~/Views/Shared/_clientLayout.cshtml";
+}
+<div class="panel panel-primary">
+    <div class="panel-body" style="text-align:center">
+        <h1>
+            @Model.Message
+        </h1>
+        <br />
+        @Html.ActionLink("Home", "Index", "Home", null, new { @class = "btn btn-primary" })
+    </div>
+</div>

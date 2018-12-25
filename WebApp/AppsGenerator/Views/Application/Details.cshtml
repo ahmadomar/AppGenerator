@@ -1,0 +1,127 @@
+﻿@model AppsGenerator.Models.Application
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_AppInfoLayout.cshtml";
+}
+
+<h2>Application Management</h2>
+
+<div>
+<div class="row">
+    <div class="col-md-6">
+        <div class="col-md-2">
+            <div class="btn-group">
+                <button type="button" class="btn btn-default" aria-expanded="false">
+                    
+                    <span class="caret"></span>
+                </button>
+            </div>
+        </div>
+
+        @if (Model.generated.HasValue)
+        {
+            if (Model.generated.Value == true)
+            {
+
+            <div class="col-md-2">
+                <div class="btn-group">
+                    <button type="button" class="btn btn-default" aria-expanded="false">
+                       
+                        <span class="caret"></span>
+                    </button>
+                </div>
+            </div>
+
+    <div class="col-md-2">
+        <div class="btn-group">
+            <button type="button" class="btn btn-default" aria-expanded="false">
+                
+                <span class="caret"></span>
+            </button>
+        </div>
+    </div>
+            
+
+       
+        }
+        }
+    </div>
+</div>
+    <h4>Application</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Member.username)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Member.username)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Theme.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Theme.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.created_at)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.created_at)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.db_datasource)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.db_datasource)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.db_name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.db_name)
+        </dd>
+
+        <dd>
+            @Html.DisplayFor(model => model.generated)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.url)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.url)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.is_running)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.is_running)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
