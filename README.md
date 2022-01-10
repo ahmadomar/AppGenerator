@@ -1,12 +1,11 @@
 # AppGenerator
-Hi Everyone, this is a complete project files, so what's apps generator, let me ask you :) 
- In 2015 i've thinked about let the users to generate web application without typing any code, so i have write down the whole documentation about the features and the technologies i should use on it, here i give you a situation to generate the application from scratch "Admin" based app with CRUS opperations, but here i have a competition with Microsoft to generate a full app for both "Admin" and "Client" and i have stopped working on it, so i though one of you may use this app to generate any future app.
+Hi Everyone, this is a complete project file, so what's an apps generator, let me ask you :) In 2015 I've thought about letting the users generate web applications without typing any code, so I have written down the whole documentation about the features and the technologies I should use on it, here I give you a situation to generate the application from scratch "Admin" based app with CRUS operations, but here I have a competition with Microsoft to generate a full app for both "Admin" and "Client" and I have stopped working on it, so I thought one of you may use this app to generate any future app.
  
  #features:
  
- - Generate a full project file with '.csproj' with it's referenced libraries with published file.
- - Publish the full project to 'Azure Websites' directly and choose your own domain name.\
- - Choose your own theme.
+ - Generate a full project file with '.csproj' with its referenced libraries with the published file.
+ - Publish the full project to 'Azure Websites' directly and choose your domain name.\
+ - Choose your theme.
 
 #Technologies:
 - C#
